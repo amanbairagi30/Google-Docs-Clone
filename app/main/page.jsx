@@ -6,8 +6,11 @@ import Image from 'next/image'
 import { BsShareFill } from "react-icons/bs"
 import TextEditor from '../components/TextEditor'
 
+
 const Main = () => {
   const router = useRouter();
+
+
   return (
     <div>
       <header className='flex shadow-mdf  items-center justify-between p-3 pb-1'>
