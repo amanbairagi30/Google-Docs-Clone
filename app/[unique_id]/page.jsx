@@ -5,11 +5,16 @@ import logo from "../../public/main-logo.svg"
 import Image from 'next/image'
 import { BsShareFill } from "react-icons/bs"
 import TextEditor from '../components/TextEditor'
+import { useParams } from 'next/navigation'
+// import { useRouter } from 'next/router'
 
 
-const Main = () => {
+const Main = ({params}) => {
+
+  const id = params.unique_id
   const router = useRouter();
-
+  // const id = router.query.unique_id;
+  // alert(id)
 
   return (
     <div>
@@ -31,10 +36,10 @@ const Main = () => {
           </div>
         </div>
         <button className='flex items-center justify-center text-white h-[2.5rem] px-2 rounded-md cursor-pointer gap-2 bg-[#2196f3]'>
-          <BsShareFill /> <p className='font-medium '>Share</p> 
+          <BsShareFill /> <p className='font-medium '>Share</p>
         </button>
       </header>
-      <TextEditor />
+      <TextEditor id={id} />
     </div>
   )
 }

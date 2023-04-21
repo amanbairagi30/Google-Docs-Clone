@@ -5,6 +5,7 @@ import "quill/dist/quill.snow.css"
 import { io } from 'socket.io-client'
 import "../components/TextEditor.css"
 
+const SAVE_INTERVAL_MS = 2000;
 const TOOLBAR_OPTIONS = [
     [{header : [1,2,3,4,5,6,false]}],
     [{font:[]}],
@@ -17,9 +18,11 @@ const TOOLBAR_OPTIONS = [
     ["clean"],
 ]
 
-const TextEditor = () => {
+const TextEditor = ({id}) => {
+
     const [socket , setSocket] = useState()
     const [quill,setQuill] = useState()
+    // alert(id)
 
     useEffect(()=>{
         const s = io("http://localhost:3001")
@@ -34,6 +37,28 @@ const TextEditor = () => {
     },[])  
 
     useEffect(()=>{
+        if(socket == null || quill == null) return 
+
+        const interval = setInterval(()=>{
+            socket.emit('save-document',quill.getContents())
+        },SAVE_INTERVAL_MS)
+
+        return () =>{
+            clearInterval(interval)
+        }
+    },[socket,quill])
+
+    useEffect(()=>{
+        if(socket == null || quill == null) return
+
+        socket.once("load-document",document=>{
+            quill.setContents(document)
+            quill.enable()
+        })
+        socket.emit("get-document",id)
+    },[socket,quill,id])
+
+    useEffect(()=>{
         if(socket == null || quill == null) return
             const handler = (delta, oldDelta, source)=>{
                 quill.updateContents(delta)
@@ -44,6 +69,7 @@ const TextEditor = () => {
             }
 
     }, [socket,quill])
+
     useEffect(()=>{
         if(socket == null || quill == null) return
             const handler = (delta, oldDelta, source)=>{
@@ -67,6 +93,8 @@ const TextEditor = () => {
             const q = new Quill(editor, { theme: "snow" ,modules:{
                 toolbar:TOOLBAR_OPTIONS
             }})
+            q.disable()
+            q.setText("Loading.....")
             setQuill(q)
         }
     }, [quill])

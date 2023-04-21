@@ -4,17 +4,23 @@ import { BsThreeDotsVertical } from "react-icons/bs"
 import { AiFillFolder } from "react-icons/ai"
 import Header from "./Header"
 import Link from "next/link"
-import { v4 as uuidv4} from 'uuid'
+
 
 
 const Intro = () => {
-    const[uuid,setUUID] = useState(() => uuidv4())
+    const[unique_id,setUnique_id] = useState('')
+
 
     const generateRandomId = () => {
-        const min = 1000; // minimum number that can be generated (4-digit)
-        const max = 9999; // maximum number that can be generated (4-digit)
-        const randomNum = Math.floor(Math.random() * (max - min + 1) + min); // generate a random number between min and max (inclusive)
-        console.log(randomNum.toString()) // convert the random number to string and return
+        // const min = 1000; // minimum number that can be generated (4-digit)
+        // const max = 9999; // maximum number that can be generated (4-digit)
+        // const randomNum = Math.floor(Math.random() * (max - min + 1) + min); // generate a random number between min and max (inclusive)
+        // console.log(randomNum.toString()) // convert the random number to string and return
+        // // alert(randomNum.toString())
+
+        const id = crypto.randomUUID()
+        setUnique_id(id)
+
       };
 
     // const random = generateRandomId();
@@ -32,9 +38,9 @@ const Intro = () => {
                     <div className='relative w-40  '>
                         {/* <Image width={100} height={} src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" /> */}
 
-                        <Link href={`/main`}><img className='w-full cursor-pointer border-2 hover:border-blue-200' src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" alt="" /></Link>
+                        <Link href={`/${unique_id}`}><img onClick={generateRandomId} className='w-full cursor-pointer border-2 hover:border-blue-200' src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" alt="" /></Link>
 
-                        <p onClick={generateRandomId} className='mt-2 ml-2 '>Blank</p>
+                        <p className='mt-2 ml-2 '>Blank</p>
                     </div>
                 </div>
             </section>
