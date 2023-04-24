@@ -94,7 +94,7 @@ const TextEditor = ({id}) => {
                 toolbar:TOOLBAR_OPTIONS
             }})
             q.disable()
-            q.setText("Loading.....")
+            q.setText("Waiting for Server to Start.......")
             setQuill(q)
         }
     }, [quill])

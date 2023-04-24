@@ -43,6 +43,7 @@ body {
     top: 0;
     z-index: 1;
     background-color: #edf2fa;
+    flex-wrap: wrap;
     border: none;
 
 }
